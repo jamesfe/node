@@ -6,6 +6,8 @@ const path = require('path');
 
 const example = path.join(common.fixturesDir, 'x.txt');
 
+const expTypeError = common.expectsError('ERR_INVALID_ARG_TYPE', TypeError);
+
 assert.doesNotThrow(function() {
   fs.createReadStream(example, undefined);
 });
@@ -21,13 +23,13 @@ assert.doesNotThrow(function() {
 
 assert.throws(function() {
   fs.createReadStream(example, 123);
-}, /"options" must be a string or an object/);
+}, expTypeError);
 assert.throws(function() {
   fs.createReadStream(example, 0);
-}, /"options" must be a string or an object/);
+}, expTypeError);
 assert.throws(function() {
   fs.createReadStream(example, true);
-}, /"options" must be a string or an object/);
+}, expTypeError);
 assert.throws(function() {
   fs.createReadStream(example, false);
-}, /"options" must be a string or an object/);
+}, expTypeError);

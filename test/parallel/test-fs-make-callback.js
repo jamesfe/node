@@ -2,7 +2,7 @@
 const common = require('../common');
 const assert = require('assert');
 const fs = require('fs');
-const cbTypeError = /^TypeError: "callback" argument must be a function$/;
+const expTypeError = common.expectsError('ERR_INVALID_ARG_TYPE', TypeError);
 
 function test(cb) {
   return function() {
@@ -27,13 +27,13 @@ process.once('warning', common.mustCall((warning) => {
 assert.doesNotThrow(test());
 
 function invalidArgumentsTests() {
-  assert.throws(test(null), cbTypeError);
-  assert.throws(test(true), cbTypeError);
-  assert.throws(test(false), cbTypeError);
-  assert.throws(test(1), cbTypeError);
-  assert.throws(test(0), cbTypeError);
-  assert.throws(test('foo'), cbTypeError);
-  assert.throws(test(/foo/), cbTypeError);
-  assert.throws(test([]), cbTypeError);
-  assert.throws(test({}), cbTypeError);
+  assert.throws(test(null), expTypeError);
+  assert.throws(test(true), expTypeError);
+  assert.throws(test(false), expTypeError);
+  assert.throws(test(1), expTypeError);
+  assert.throws(test(0), expTypeError);
+  assert.throws(test('foo'), expTypeError);
+  assert.throws(test(/foo/), expTypeError);
+  assert.throws(test([]), expTypeError);
+  assert.throws(test({}), expTypeError);
 }

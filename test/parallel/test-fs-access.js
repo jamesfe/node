@@ -6,6 +6,7 @@ const path = require('path');
 const doesNotExist = path.join(common.tmpDir, '__this_should_not_exist');
 const readOnlyFile = path.join(common.tmpDir, 'read_only_file');
 const readWriteFile = path.join(common.tmpDir, 'read_write_file');
+const expTypeError = common.expectsError('ERR_INVALID_ARG_TYPE', TypeError);
 
 const createFileWithPerms = function(file, mode) {
   fs.writeFileSync(file, '');
@@ -87,11 +88,11 @@ assert.throws(() => {
 
 assert.throws(() => {
   fs.access(__filename, fs.F_OK);
-}, /^TypeError: "callback" argument must be a function$/);
+}, expTypeError);
 
 assert.throws(() => {
   fs.access(__filename, fs.F_OK, {});
-}, /^TypeError: "callback" argument must be a function$/);
+}, expTypeError);
 
 assert.doesNotThrow(() => {
   fs.accessSync(__filename);

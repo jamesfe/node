@@ -3,12 +3,7 @@ const common = require('../common');
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-
-const numberError = new RegExp('^TypeError: "options" must be a string ' +
-                               'or an object, got number instead.$');
-
-const booleanError = new RegExp('^TypeError: "options" must be a string ' +
-                                'or an object, got boolean instead.$');
+const expTypeError = common.expectsError('ERR_INVALID_ARG_TYPE', TypeError);
 
 const example = path.join(common.tmpDir, 'dummy');
 
@@ -32,16 +27,16 @@ assert.doesNotThrow(() => {
 
 assert.throws(() => {
   fs.createWriteStream(example, 123);
-}, numberError);
+}, expTypeError);
 
 assert.throws(() => {
   fs.createWriteStream(example, 0);
-}, numberError);
+}, expTypeError);
 
 assert.throws(() => {
   fs.createWriteStream(example, true);
-}, booleanError);
+}, expTypeError);
 
 assert.throws(() => {
   fs.createWriteStream(example, false);
-}, booleanError);
+}, expTypeError);
